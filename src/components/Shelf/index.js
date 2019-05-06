@@ -14,7 +14,6 @@ class Shelf extends Component {
   static propTypes = {
     fetchProducts: PropTypes.func.isRequired,
     products: PropTypes.array.isRequired,
-    filters: PropTypes.array,
     sort: PropTypes.string
   };
 
@@ -27,11 +26,7 @@ class Shelf extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filters: nextFilters, sort: nextSort } = nextProps;
-
-    if (nextFilters !== this.props.filters) {
-      this.handleFetchProducts(nextFilters, undefined);
-    }
+    const { sort: nextSort } = nextProps;
 
     if (nextSort !== this.props.sort) {
       this.handleFetchProducts(undefined, nextSort);
@@ -43,9 +38,11 @@ class Shelf extends Component {
     sort = this.props.sort
   ) => {
     this.setState({ isLoading: true });
+
     this.props.fetchProducts(filters, sort, () => {
       this.setState({ isLoading: false });
     });
+    console.log(this.props);
   };
 
   render() {

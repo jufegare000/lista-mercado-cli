@@ -33,18 +33,15 @@ const Product = ({ product, addProduct }) => {
       onClick={() => addProduct(product)}
       data-sku={product.sku}
     >
-      
-      <Thumb
-        classes="shelf-item__thumb"
-       
-        alt={product.title}
-      />
-      <p className="shelf-item__title">{product.title}</p>
+      <Thumb classes="shelf-item__thumb" alt={product.name} />
+      <p className="shelf-item__title">{product.name}</p>
       <div className="shelf-item__price">
         <div className="val">
+          {/*
           <small>{product.currencyFormat}</small>
           <b>{formattedPrice.substr(0, formattedPrice.length - 3)}</b>
-          <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>
+          <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>*/}
+          <p>{product.value}</p>
         </div>
       </div>
       <div className="shelf-item__buy-btn">Add to cart</div>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { productsAPI } from '../util';
 
 const compare = {
+  /*
   lowestprice: (a, b) => {
     if (a.price < b.price) return -1;
     if (a.price > b.price) return 1;
@@ -13,16 +14,22 @@ const compare = {
     if (a.price > b.price) return -1;
     if (a.price < b.price) return 1;
     return 0;
-  }
+  }*/
+};
+
+let vars = {
+  products: []
 };
 
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
   return axios
     .get(productsAPI)
     .then(res => {
-      let { products } = res.data;
+      console.log(res);
 
-      if (!!filters && filters.length > 0) {
+      let { products } = { products: res.data };
+
+      /* if (!!filters && filters.length > 0) {
         products = products.filter(p =>
           filters.find(f => p.availableSizes.find(size => size === f))
         );
@@ -30,7 +37,7 @@ export const fetchProducts = (filters, sortBy, callback) => dispatch => {
 
       if (!!sortBy) {
         products = products.sort(compare[sortBy]);
-      }
+      }*/
 
       if (!!callback) {
         callback();
