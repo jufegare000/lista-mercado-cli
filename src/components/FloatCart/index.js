@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { loadCart, removeProduct } from '../../services/cart/actions';
+import {
+  loadCart,
+  removeProduct,
+  createCheck
+} from '../../services/cart/actions';
 import { updateCart } from '../../services/total/actions';
 import CartProduct from './CartProduct';
 import { formatPrice } from '../../services/util';
@@ -16,7 +20,8 @@ class FloatCart extends Component {
     cartProducts: PropTypes.array.isRequired,
     newProduct: PropTypes.object,
     removeProduct: PropTypes.func,
-    productToRemove: PropTypes.object
+    productToRemove: PropTypes.object,
+    createCheck: PropTypes.func
   };
 
   state = {
@@ -71,6 +76,7 @@ class FloatCart extends Component {
   };
 
   proceedToCheckout = () => {
+    console.log(this.props);
     const {
       totalPrice,
       productQuantity,
@@ -79,14 +85,32 @@ class FloatCart extends Component {
     } = this.props.cartTotal;
 
     if (!productQuantity) {
-      alert('Add some product in the cart!');
+      alert('Agrega productos');
     } else {
+      /*
       alert(
-        `Checkout - Subtotal: ${currencyFormat} ${formatPrice(
+        `Total a pagar : ${currencyFormat} ${formatPrice(
           totalPrice,
           currencyId
         )}`
-      );
+      );*/
+      let cartProducts = this.props.cartProducts;
+      let totalPrice = this.props.cartTotal.totalPrice;
+      let lines = [];
+      cartProducts.forEach(cp => {
+        lines.push({
+          product: cp.name,
+          value: cp.value,
+          cuantity: cp.quantity
+        });
+      });
+
+      let check = {
+        totalToPay: totalPrice,
+        lines: lines
+      };
+      console.log(check);
+      createCheck(check);
     }
   };
 
@@ -132,43 +156,25 @@ class FloatCart extends Component {
             <span className="bag">
               <span className="bag__quantity">{cartTotal.productQuantity}</span>
             </span>
-            <span className="header-title">Cart</span>
+            <span className="header-title">Compras</span>
           </div>
 
           <div className="float-cart__shelf-container">
             {products}
             {!products.length && (
               <p className="shelf-empty">
-                Add some products in the cart <br />
-                :)
+                Agrega productos al carrito <br />
               </p>
             )}
           </div>
 
           <div className="float-cart__footer">
-            <div className="sub">SUBTOTAL</div>
+            <div className="sub">TOTAL</div>
             <div className="sub-price">
-              <p className="sub-price__val">
-                {`${cartTotal.currencyFormat} ${formatPrice(
-                  cartTotal.totalPrice,
-                  cartTotal.currencyId
-                )}`}
-              </p>
-              <small className="sub-price__installment">
-                {!!cartTotal.installments && (
-                  <span>
-                    {`OR UP TO ${cartTotal.installments} x ${
-                      cartTotal.currencyFormat
-                    } ${formatPrice(
-                      cartTotal.totalPrice / cartTotal.installments,
-                      cartTotal.currencyId
-                    )}`}
-                  </span>
-                )}
-              </small>
+              <p className="sub-price__val">${cartTotal.totalPrice}</p>
             </div>
             <div onClick={() => this.proceedToCheckout()} className="buy-btn">
-              Checkout
+              Comprar
             </div>
           </div>
         </div>

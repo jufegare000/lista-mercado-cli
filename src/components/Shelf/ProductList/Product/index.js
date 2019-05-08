@@ -9,12 +9,10 @@ import { addProduct } from '../../../../services/cart/actions';
 const Product = ({ product, addProduct }) => {
   product.quantity = 1;
 
-  let formattedPrice = formatPrice(product.price, product.currencyId);
-
   let productInstallment;
 
   if (!!product.installments) {
-    const installmentPrice = product.price / product.installments;
+    const installmentPrice = product.value / product.installments;
 
     productInstallment = (
       <div className="installment">
@@ -37,14 +35,10 @@ const Product = ({ product, addProduct }) => {
       <p className="shelf-item__title">{product.name}</p>
       <div className="shelf-item__price">
         <div className="val">
-          {/*
-          <small>{product.currencyFormat}</small>
-          <b>{formattedPrice.substr(0, formattedPrice.length - 3)}</b>
-          <span>{formattedPrice.substr(formattedPrice.length - 3, 3)}</span>*/}
           <p>{product.value}</p>
         </div>
       </div>
-      <div className="shelf-item__buy-btn">Add to cart</div>
+      <div className="shelf-item__buy-btn">Agregar al carrito</div>
     </div>
   );
 };

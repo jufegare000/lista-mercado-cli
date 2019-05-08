@@ -39,20 +39,16 @@ class CartProduct extends Component {
           onMouseOut={() => this.handleMouseOut()}
           onClick={() => removeProduct(product)}
         />
-        <Thumb
-          classes="shelf-item__thumb"
-          src={require(`../../../static/products/${product.sku}_2.jpg`)}
-          alt={product.title}
-        />
+        <Thumb classes="shelf-item__thumb" alt={product.name} />
         <div className="shelf-item__details">
-          <p className="title">{product.title}</p>
+          <p className="title">{product.name}</p>
           <p className="desc">
-            {`${product.availableSizes[0]} | ${product.style}`} <br />
-            Quantity: {product.quantity}
+            <br />
+            Cantidad: {product.quantity}
           </p>
         </div>
         <div className="shelf-item__price">
-          <p>{`${product.currencyFormat}  ${formatPrice(product.price)}`}</p>
+          <p>${product.value}</p>
         </div>
       </div>
     );
