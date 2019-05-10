@@ -1,9 +1,4 @@
-import {
-  LOAD_CART,
-  ADD_PRODUCT,
-  REMOVE_PRODUCT,
-  CREATE_CHECK
-} from './actionTypes';
+import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT } from './actionTypes';
 import axios from 'axios';
 
 export const loadCart = products => ({

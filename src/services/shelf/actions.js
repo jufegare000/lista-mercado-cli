@@ -3,20 +3,6 @@ import axios from 'axios';
 
 import { productsAPI } from '../util';
 
-const compare = {
-  /*
-  lowestprice: (a, b) => {
-    if (a.price < b.price) return -1;
-    if (a.price > b.price) return 1;
-    return 0;
-  },
-  highestprice: (a, b) => {
-    if (a.price > b.price) return -1;
-    if (a.price < b.price) return 1;
-    return 0;
-  }*/
-};
-
 let vars = {
   products: []
 };
@@ -28,16 +14,6 @@ export const fetchProducts = (filters, sortBy, callback) => dispatch => {
       console.log(res);
 
       let { products } = { products: res.data };
-
-      /* if (!!filters && filters.length > 0) {
-        products = products.filter(p =>
-          filters.find(f => p.availableSizes.find(size => size === f))
-        );
-      }
-
-      if (!!sortBy) {
-        products = products.sort(compare[sortBy]);
-      }*/
 
       if (!!callback) {
         callback();
