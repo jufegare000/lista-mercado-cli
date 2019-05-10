@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2'
 
 import { connect } from 'react-redux';
 import {
@@ -63,6 +64,7 @@ class FloatCart extends Component {
 
     updateCart(cartProducts);
     this.openFloatCart();
+
   };
 
   removeProduct = product => {
@@ -113,6 +115,36 @@ class FloatCart extends Component {
       createCheck(check);
     }
   };
+
+  showCheckOutConfirm = () => {
+    let totalPrice = this.props.cartTotal.totalPrice;
+    let cartProducts = this.props.cartProducts;
+    let list='';
+    cartProducts.forEach(cp => {
+      list=list+'<p>'+cp.name+'\t '+cp.quantity+'\n'
+    });
+    list=list+'<br/><br/> total: <b>$'+totalPrice+'</b>'
+    Swal.fire({
+      title: '¿esta seguro de comprar estos productos?',
+      html:list,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelmButtonText: 'No'
+    }).then((result) => {
+      if (result.value) {
+        this.proceedToCheckout();
+        Swal.fire(
+          'Compra realizada',
+          'Su compra ha sido realizada exitosamente',
+          'success'
+        )
+      }
+    })
+  };
+
 
   render() {
     const { cartTotal, cartProducts, removeProduct } = this.props;
@@ -173,7 +205,7 @@ class FloatCart extends Component {
             <div className="sub-price">
               <p className="sub-price__val">${cartTotal.totalPrice}</p>
             </div>
-            <div onClick={() => this.proceedToCheckout()} className="buy-btn">
+            <div onClick={() => this.showCheckOutConfirm()} className="buy-btn">
               Comprar
             </div>
           </div>
